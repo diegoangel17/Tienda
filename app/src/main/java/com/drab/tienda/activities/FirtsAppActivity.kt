@@ -16,15 +16,15 @@ class FirtsAppActivity : AppCompatActivity() {
         setContentView(R.layout.activity_firts_app)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-        v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-        insets
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
 
 
-    }
+        }
         //Este codigo arranca la pantalla
         val btMas = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.btn_mas)
         btMas.setOnClickListener {
-        val intent = Intent(this, AgregarTenis::class.java)
+            val intent = Intent(this, AgregarTenis::class.java)
             startActivity(intent)
         }
         val imgMas = findViewById<ImageButton>(R.id.img_agregar)

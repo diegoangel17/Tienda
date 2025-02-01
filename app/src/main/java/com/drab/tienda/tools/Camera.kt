@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
@@ -114,7 +115,7 @@ class Camera : AppCompatActivity() {
 
         // Crea un archivo para guardar la foto
         val photoFile = File(
-            externalMediaDirs.firstOrNull(),
+            getExternalFilesDir(Environment.DIRECTORY_PICTURES), // Directorio privado
             SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.US).format(System.currentTimeMillis()) + ".jpg"
         )
 
@@ -167,9 +168,7 @@ class Camera : AppCompatActivity() {
 
     companion object {
         private val cameraPermisos = arrayOf(
-            Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.CAMERA
         )
     }
 }

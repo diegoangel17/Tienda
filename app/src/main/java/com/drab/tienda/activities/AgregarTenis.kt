@@ -18,6 +18,7 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.lifecycle.lifecycleScope
@@ -31,7 +32,6 @@ import kotlinx.coroutines.launch
 class AgregarTenis : AppCompatActivity() {
 
     private lateinit var cameraResultLauncher: ActivityResultLauncher<Intent>
-    private lateinit var galleryResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var db: TenisData
     private lateinit var teniDao: TeniDao
 
@@ -55,22 +55,13 @@ class AgregarTenis : AppCompatActivity() {
         ) { result ->
             if (result.resultCode == RESULT_OK) {
                 val imageUrl = result.data?.getStringExtra("IMAGE_URL") ?: ""
+                selectedImageUri= Uri.parse(imageUrl)
                 val imageView = findViewById<ImageView>(R.id.seleccion)
                 imageView.setImageURI(Uri.parse(imageUrl))
             }
         }
         // Registrar el contrato para seleccionar imágenes de la galería
-        galleryResultLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val selectedImageUri: Uri? = result.data?.data
-                selectedImageUri?.let {
-                    val imageView = findViewById<ImageView>(R.id.seleccion)
-                    imageView.setImageURI(it)
-                }
-            }
-        }
+
 
         val btnCamera = findViewById<ImageButton>(R.id.camara)
         btnCamera.setOnClickListener {
@@ -183,13 +174,26 @@ class AgregarTenis : AppCompatActivity() {
             val color2 = desplegable2.selectedItem.toString()
             val tallas = desplegable3.selectedItem.toString()
             val numeracion: MutableList<Boolean> = mutableListOf()
+            val url=selectedImageUri?.toString() ?: ""
             for (i in checkBox.indices){
                 numeracion.add(checkBox[i].isChecked)
             }
 
-            if (nombre.isNotEmpty() && color1.isNotEmpty()) {
+            if (nombre.isNotEmpty()) {
                 lifecycleScope.launch {
-                    teniDao.insertTeni(ModeloBase(nombre = nombre, precio = precio, color1 = color1, color2 = color2, tallas = tallas, t1 = numeracion[0], t2 = numeracion[1], t3 = numeracion[2], t4 = numeracion[3], t5 = numeracion[4], t6 = numeracion[5], imagen = imageUrl))
+                    teniDao.insertTeni(ModeloBase(
+                        nombre = nombre,
+                        precio = precio,
+                        color1 = color1,
+                        color2 = color2,
+                        tallas = tallas,
+                        t1 = numeracion[0],
+                        t2 = numeracion[1],
+                        t3 = numeracion[2],
+                        t4 = numeracion[3],
+                        t5 = numeracion[4],
+                        t6 = numeracion[5],
+                        imagen = url))
                     Log.e("Guardado", "Se guardaron los datos")
                     finish()
                 }
@@ -201,11 +205,20 @@ class AgregarTenis : AppCompatActivity() {
         }
 
     }
+
     //Aqui las funciones privadas
+
+    private var selectedImageUri: Uri? = null
+
+    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        uri?.let {
+            val imageView = findViewById<ImageView>(R.id.seleccion)
+            imageView.setImageURI(it)
+        }
+    }
+
     private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        galleryResultLauncher.launch(intent)
+        pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
 
 }

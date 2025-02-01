@@ -51,6 +51,7 @@
 
 
             tools:ignore="HardcodedText" />
+
         <ImageButton
             android:id="@+id/img_Registro"
             android:layout_width="40dp"
@@ -58,9 +59,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="5dp"
             android:background="@drawable/registro"
-            tools:ignore="HardcodedText,TouchTargetSizeCheck"
             android:contentDescription="envia al registro"
-            />
+            tools:ignore="HardcodedText,TouchTargetSizeCheck,ImageContrastCheck" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <!--Agregar Tenis-->
@@ -123,7 +123,7 @@
         >
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/Campo_txt1"
+            android:id="@+id/CamFiltro"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -163,15 +163,16 @@
         app:layout_constraintVertical_bias="0.16"
         app:layout_constraintHorizontal_bias="0.6"
         >
+
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchBlue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            app:trackTint="@color/switchazul"
-            app:thumbTint="#1B56A2"
             android:layout_margin="5dp"
-            />
+            app:thumbTint="#1B56A2"
+            app:trackTint="@color/switchazul"
+            tools:ignore="DuplicateSpeakableTextCheck" />
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchBlack"
             android:layout_width="wrap_content"
@@ -234,13 +235,14 @@
 
             <ImageButton
                 android:id="@+id/ImgC1"
-                android:layout_width="60dp"
-                android:layout_height="70dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:background="@drawable/notfotos"
                 android:contentDescription="Imagen 1"
                 android:layout_margin="6dp"
                 android:padding="5dp"
-                tools:ignore="HardcodedText,TouchTargetSizeCheck" />
+                tools:ignore="HardcodedText,TouchTargetSizeCheck"
+                />
 
             <ImageButton
                 android:id="@+id/ImgC2"
@@ -334,5 +336,26 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+    <TextView
+        android:id="@+id/textUrl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.9"
+    />
+
+    <Button
+        android:id="@+id/btnBorrar"
+        android:text="Borrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.95"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

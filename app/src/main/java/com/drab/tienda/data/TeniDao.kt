@@ -13,6 +13,12 @@ interface TeniDao {
         @Query("SELECT imagen FROM teni")
         suspend fun getAllUrl(): List<String>
 
-        @Query("SELECT imagen FROM teni WHERE nombre = :nombre")
+        @Query("SELECT imagen FROM teni WHERE nombre = :nombre LIMIT 1")
         suspend fun getImageUrlByName(nombre: String): String?
+
+        @Query("DELETE FROM teni")
+        suspend fun deleteAllTenis()
+
+        @Query("DELETE FROM sqlite_sequence")
+        suspend fun deleteIds()
 }
